@@ -8,9 +8,9 @@ module.exports = {
     preset: 'ts-jest',
     testEnvironment: 'jsdom',
     testPathIgnorePatterns: ['/node_modules/', '/src/data', 'test-utils.tsx'],
-    rootDir: './src',
+    rootDir: './tests',
     moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
-        prefix: '<rootDir>/',
+        prefix: './src/',
     }),
     transform: {
         '^.+\\.(t|j)sx?$': '@swc/jest',

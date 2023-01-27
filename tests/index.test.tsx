@@ -1,5 +1,5 @@
 import React from 'react';
-import { createFastContext } from '@src/index';
+import { createFastContext } from '../src/index';
 import { act, render } from './test-utils';
 
 function setup(initialState, arg: any) {

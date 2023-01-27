@@ -16,7 +16,7 @@ export * from '@testing-library/react';
 // override render method
 export { customRender as render };
 
-export function setup(jsx) {
+export function setupRender(jsx: React.ReactElement) {
     return {
         user: userEvent.setup(),
         ...render(jsx),
