@@ -8,7 +8,9 @@ import React, {
 
 type UpdateFunction<T> = (prev: T) => Partial<T>;
 
-export function createFastContext<Store extends object>(initialState: Store) {
+export function createFastContext<Store extends object>(
+    initialState: Store = {} as Store
+) {
     function useStoreData<Props>(props?: Props): {
         get: () => Store;
         set: (updateFunction: UpdateFunction<Store>) => void;
