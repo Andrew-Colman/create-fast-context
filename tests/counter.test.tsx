@@ -1,6 +1,6 @@
 import React from 'react';
 import { createFastContext } from '../src/index';
-import { screen, setupRender } from './test-utils';
+import { screen, setup } from './test-utils';
 
 const { Provider, useStore, useSetStore } = createFastContext({ count: 0 });
 
@@ -31,7 +31,7 @@ function Counter() {
 
 describe('the trivial Counter Component test', () => {
     it('should increment: Counter value', async () => {
-        const { user } = setupRender(
+        const { user } = setup(
             <Provider>
                 <Counter />
             </Provider>

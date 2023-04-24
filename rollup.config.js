@@ -12,7 +12,7 @@ const declarationDir = `${outputDir}/_declaration`;
 
 const plugins = [
     command(
-        `yarn tsc --emitDeclarationOnly --declaration --declarationDir ${declarationDir} --excludeDirectories ./src/__tests__`,
+        `yarn tsc --emitDeclarationOnly --declaration --declarationDir ${declarationDir}`,
         { wait: true, once: true } // emitting types
     ),
     typescript({
@@ -29,9 +29,11 @@ const plugins = [
 
 const external = [
     '/node_modules/',
-    ...Object.keys(require('./package.json').dependencies),
-    ...Object.keys(require('./package.json').devDependencies),
-    ...Object.keys(require('./package.json').peerDependencies),
+    ...Object.keys(require('./package.json')?.dependencies),
+    ...Object.keys(require('./package.json')?.peerDependencies),
+    ...Object.keys(require('./package.json')?.devDependencies).filter(
+        p => p !== 'tslib'
+    ),
 ]; // external packages
 
 const emitTypes = {
