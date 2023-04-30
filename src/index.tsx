@@ -5,7 +5,6 @@ import React, {
     useCallback,
     useSyncExternalStore,
 } from 'react';
-
 import type { ReactNode } from 'react';
 
 type UpdateFunction<T> = (prev: T) => Partial<T>;
@@ -18,7 +17,7 @@ export function createFastContext<Store extends object>(
         set: (updateFunction: UpdateFunction<Store>) => void;
         subscribe: (callback: () => void) => () => void;
     } {
-        const store = useRef(Object.assign(initialState, props));
+        const store = useRef({ ...initialState, ...props });
 
         const get = useCallback(() => store.current, []);
 
