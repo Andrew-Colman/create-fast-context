@@ -3,10 +3,10 @@ import { createFastContext } from '../src/index';
 import { act, render } from './test-utils';
 
 function setup(initialState, arg: any) {
-    const { Provider, useStore } = createFastContext(initialState);
+    const { Provider, useStore, useSetStore } = createFastContext(initialState);
     const returnVal = {};
     function TestComponent() {
-        Object.assign(returnVal, useStore(arg));
+        Object.assign(returnVal, useStore(arg), { 2: useSetStore() });
         return null;
     }
     render(
@@ -24,6 +24,13 @@ describe('createFastContext test', () => {
         expect(Provider).toBeDefined();
         expect(useStore).toBeDefined();
     });
+
+    it('should be Defined: Provider & useStore without initialState', () => {
+        const { Provider, useStore } = createFastContext();
+
+        expect(Provider).toBeDefined();
+        expect(useStore).toBeDefined();
+    });
 });
 
 describe('Advanced test: Using components', () => {
@@ -31,6 +38,22 @@ describe('Advanced test: Using components', () => {
         const data = setup({ count: 0 }, state => state.count);
         // count = data[0] / setStore = data[1]
         const setStore = data[1];
+
+        expect(data[0]).toBe(0);
+        expect(setStore).toBeDefined();
+        act(() => {
+            setStore(prev => ({
+                count: prev.count + 1,
+            }));
+        });
+
+        expect(data[0]).toBe(1);
+    });
+
+    it('should Render component and increment count using useSetStore', () => {
+        const data = setup({ count: 0 }, state => state.count);
+
+        const setStore = data[2];
 
         expect(data[0]).toBe(0);
         expect(setStore).toBeDefined();

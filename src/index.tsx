@@ -6,6 +6,8 @@ import React, {
     useSyncExternalStore,
 } from 'react';
 
+import type { ReactNode } from 'react';
+
 type UpdateFunction<T> = (prev: T) => Partial<T>;
 
 export function createFastContext<Store extends object>(
@@ -45,7 +47,7 @@ export function createFastContext<Store extends object>(
     type UseStoreDataReturnType = ReturnType<typeof useStoreData>;
 
     type ProviderParameters = {
-        children: React.ReactNode;
+        children: ReactNode;
         [props: string]: any;
     };
 
