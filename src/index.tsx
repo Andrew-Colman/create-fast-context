@@ -4,13 +4,25 @@ import React, {
     useContext,
     useCallback,
     useSyncExternalStore,
+    useEffect,
 } from 'react';
 import type { ReactNode } from 'react';
 
 type UpdateFunction<T> = (prev: T) => Partial<T>;
 
+type StoreOptions = {
+    /**
+     * A boolean value indicating whether the component should update the store
+     * based on incoming props changes. If set to true, the component will update
+     * the store every time its props change. If set to false or not provided, the
+     * component will only update the store when specific conditions are met.
+     */
+    updateOnPropsChange?: boolean;
+};
+
 export function createFastContext<Store extends object>(
-    initialState: Store = {} as Store
+    initialState: Store = {} as Store,
+    options: StoreOptions = {}
 ) {
     function useStoreData<Props>(props?: Props): {
         get: () => Store;
@@ -35,6 +47,10 @@ export function createFastContext<Store extends object>(
             subscribers.current.add(callback);
             return () => subscribers.current.delete(callback);
         }, []);
+
+        useEffect(() => {
+            if (props && options?.updateOnPropsChange) set(() => props);
+        }, [props]);
 
         return {
             get,
